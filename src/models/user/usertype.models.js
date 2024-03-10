@@ -4,7 +4,7 @@ const userTypeSchema = new mongoose.Schema({
     usertype: {
         type: String,
         required: true,
-        unique: [true, 'User Type already exists']
+        enum: ['user', 'admin', 'administrator'],
     }
 }, { timestamps: true });
 

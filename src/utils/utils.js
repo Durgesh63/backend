@@ -1,24 +1,6 @@
-const { CORS_ORIGINE } = require("../constant")
+const checkVaoidEmail = (email) => {
+    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email);
+};
 
-/**
- * Check CORS Options
- * @returns White list options
- */
-function corsOptions() {
-    const whitelist = CORS_ORIGINE
-    return {
-        origin: function (origin, callback) {
-            if (whitelist.indexOf(origin) !== -1) {
-                callback(null, true)
-            } else {
-                callback(new Error('Not allowed by CORS'))
-            }
-        }
-    }
-}
-
-
-
-module.exports = {
-    corsOptions
-}
+module.exports = { checkVaoidEmail };

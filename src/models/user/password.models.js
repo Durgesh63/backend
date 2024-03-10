@@ -1,14 +1,27 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const passwordSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minLength: [8, "Your password must be at least 8 characters"],
-        maxLength: [1024, 'Your password cannot exceed 1024 characters']
     }
 }, { timestamps: true });
 
+
+passwordSchema.pre('save', async function (next) {
+    try {
+        this.password = await bcrypt.hash(this.password, 10);
+        next();
+    } catch (error) {
+        return next(error);
+    }
+});
+
+
+passwordSchema.methods.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password)
+}
 
 const Password = mongoose.model('Password', passwordSchema);
 

@@ -1,3 +1,8 @@
+/**
+ * Async Task is a function that allows you to run operations asynchronously.
+ * @param {Function} requestHandler 
+ * @returns promis resolve or error block
+ */
 const asyncHandler = (requestHandler) => {
     return (req, res, next) => {
         Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err))

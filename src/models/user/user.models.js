@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const userSchemas = new mongoose.Schema({
 
@@ -15,7 +16,9 @@ const userSchemas = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: [true, 'Email already in use']
+        unique: [true, 'Email already in use'],
+        index: true,
+        trim: true
     },
     isActive: {
         type: Boolean,
@@ -23,7 +26,8 @@ const userSchemas = new mongoose.Schema({
     },
     password: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Password'
+        ref: 'Password',
+        require: [true, "Password is required"]
     },
     userType: {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,12 +37,17 @@ const userSchemas = new mongoose.Schema({
         type: mongoose.Schems.Types.ObjectId,
         ref: "Image"
     },
-    group: {
-        type: mongoose.Schems.Types.ObjectId,
-        ref: "Group"
-    },
+    group: [
+        {
+            type: mongoose.Schems.Types.ObjectId,
+            ref: "Group"
+        }
+    ],
 
 }, { timestamps: true });
+
+userSchemas.plugin(aggregatePaginate);
+
 
 const User = mongoose.Model('User', userSchemas);
 

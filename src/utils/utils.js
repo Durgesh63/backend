@@ -1,5 +1,11 @@
-function corsOptions(params) {
-    const whitelist = process.env.CORS_ORIGINE
+const { CORS_ORIGINE } = require("../constant")
+
+/**
+ * Check CORS Options
+ * @returns White list options
+ */
+function corsOptions() {
+    const whitelist = CORS_ORIGINE
     return {
         origin: function (origin, callback) {
             if (whitelist.indexOf(origin) !== -1) {
